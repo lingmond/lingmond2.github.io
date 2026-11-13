@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="以诗句为星，在李白与杜甫之间观看互文关系、展开全文对读。"
+    />
+    <title>醉里逢秋</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="page-atmosphere" aria-hidden="true">
+      <span class="mist mist-one"></span>
+      <span class="mist mist-two"></span>
+      <span class="mist mist-three"></span>
+      <span class="paper-grain"></span>
+    </div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="回到页首">
+        <span class="brand-seal" aria-hidden="true">互</span>
+        <span class="brand-copy">
+          <strong>醉里逢秋</strong>
+        </span>
+      </a>
+
+      <form class="search-shell" id="searchForm" role="search">
+        <span class="search-icon" aria-hidden="true"></span>
+        <label class="sr-only" for="searchInput">搜索诗句、题目或关键词</label>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="寻一句诗，如「醉」「月」「江湖」"
+          autocomplete="off"
+          spellcheck="false"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-controls="searchResults"
+          aria-expanded="false"
+        />
+        <button class="search-clear" id="searchClear" type="button" aria-label="清空搜索">
+          ×
+        </button>
+        <div class="search-results" id="searchResults" role="listbox" hidden></div>
+      </form>
+
+      <nav class="topnav" aria-label="页面导航">
+        <a href="#constellation">星图</a>
+        <a href="#reader">对读</a>
+        <button id="aboutOpen" type="button">凡例</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero hero-cinematic" id="top">
+        <div class="hero-inkfield" aria-hidden="true">
+          <span class="hero-ink hero-ink-one"></span>
+          <span class="hero-ink hero-ink-two"></span>
+          <span class="hero-ink hero-ink-three"></span>
+        </div>
+
+        <div class="hero-figure hero-figure-li" aria-hidden="true">
+          <span class="figure-halo"></span>
+          <img src="assets/images/li-bai.jpg" alt="" />
+        </div>
+        <div class="hero-figure hero-figure-du" aria-hidden="true">
+          <span class="figure-halo"></span>
+          <img src="assets/images/du-fu.jpg" alt="" />
+        </div>
+
+        <div class="hero-name-stage">
+          <a class="hero-name-link" href="#constellation" aria-label="进入互文星图">
+            <span class="hero-name-ghost" aria-hidden="true">醉里逢秋</span>
+            <h1 class="hero-name" aria-label="醉里逢秋">
+              <span>醉</span><span>里</span><span>逢</span><span>秋</span>
+            </h1>
+          </a>
+        </div>
+
+        <a class="scroll-cue" href="#constellation" aria-label="向下浏览星图">
+          <span></span>
+        </a>
+      </section>
+
+      <section class="section constellation-section" id="constellation">
+        <header class="section-heading reveal">
+          <p class="section-index">一 · 星图</p>
+          <div>
+            <h2>双星互文图</h2>
+          </div>
+        </header>
+
+        <div class="graph-toolbar reveal">
+          <div class="score-filter">
+            <div class="control-heading">
+              <label for="scoreRange">关系门槛</label>
+              <output id="scoreOutput" for="scoreRange">80.00</output>
+            </div>
+            <input
+              id="scoreRange"
+              class="range"
+              type="range"
+              min="7000"
+              max="9000"
+              step="100"
+              value="8000"
+              aria-describedby="scoreHelp"
+            />
+            <div class="range-labels" aria-hidden="true">
+              <span>70</span>
+              <span>75</span>
+              <span>80</span>
+              <span>85</span>
+              <span>90</span>
+            </div>
+            <p id="scoreHelp" class="control-help">提高门槛，只留下更切近的文本关系</p>
+          </div>
+          <div class="graph-readout" aria-live="polite">
+            <strong id="graphPairCount">936</strong>
+            <span>组诗作关联</span>
+            <i></i>
+            <strong id="graphEdgeCount">951</strong>
+            <span>条诗句互文</span>
+          </div>
+          <button class="text-action" id="useStrongButton" type="button">
+            只看八五分以上
+            <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+
+        <div class="graph-stage reveal" id="graphStage">
+          <canvas id="starCanvas" aria-label="李白与杜甫诗作互文关系星图"></canvas>
+          <div class="graph-side-label graph-side-label-li">
+            <span>李白</span>
+            <small id="liGraphCount">1,084 首诗</small>
+          </div>
+          <div class="graph-side-label graph-side-label-du">
+            <span>杜甫</span>
+            <small id="duGraphCount">1,462 首诗</small>
+          </div>
+          <div class="graph-center-mark" aria-hidden="true">
+            <i></i><span>互文</span><i></i>
+          </div>
+          <div class="graph-tooltip" id="graphTooltip" role="status" hidden></div>
+          <p class="graph-instruction">悬停读诗 · 点击开展对读</p>
+          <div class="graph-loading" id="graphLoading">
+            <span></span>
+            <p>正在铺陈星图</p>
+          </div>
+        </div>
+
+        <div class="graph-footnote reveal">
+          <p>
+            <span class="ink-dot"></span>
+            光点 · 诗作
+          </p>
+          <p>
+            <span class="ink-line"></span>
+            墨线 · 互文
+          </p>
+        </div>
+      </section>
+
+      <section class="portrait-interlude" aria-label="李白与杜甫水墨双像">
+        <div class="interlude-wash" aria-hidden="true"></div>
+        <div class="interlude-figure interlude-figure-li">
+          <img src="assets/images/li-bai.jpg" alt="李白水墨像" />
+        </div>
+        <div class="interlude-figure interlude-figure-du">
+          <img src="assets/images/du-fu.jpg" alt="杜甫水墨像" />
+        </div>
+        <span class="interlude-stroke" aria-hidden="true"></span>
+      </section>
+
+      <section class="section reader-section" id="reader">
+        <header class="section-heading reveal">
+          <p class="section-index">二 · 对读</p>
+          <div>
+            <h2>双卷照临</h2>
+          </div>
+        </header>
+
+        <div class="reader-shell reveal" id="readerShell">
+          <div class="reader-topline">
+            <div class="reader-context">
+              <span class="context-kicker">今次对读</span>
+              <strong id="readerPairLabel">赠内 × 将赴成都草堂途中有作先寄严郑公五首 三</strong>
+            </div>
+            <div class="reader-select-wrap">
+              <label for="relatedSelect">对照诗作</label>
+              <select id="relatedSelect" class="reader-select"></select>
+            </div>
+          </div>
+
+          <div class="reader-stage" id="readerStage">
+            <svg
+              class="thread-layer"
+              id="threadSvg"
+              aria-hidden="true"
+              preserveAspectRatio="none"
+            ></svg>
+
+            <article class="poem-column poem-column-li" id="liColumn">
+              <header class="poem-heading">
+                <div class="poet-mark">
+                  <span>白</span>
+                  <small>李</small>
+                </div>
+                <div>
+                  <p>李白</p>
+                  <h3 id="liPoemTitle">赠内</h3>
+                  <span id="liPoemMeta">诗号 114 · 4 句</span>
+                </div>
+              </header>
+              <div class="poem-lines" id="liPoemLines"></div>
+            </article>
+
+            <div class="reader-divider" aria-hidden="true">
+              <span></span>
+              <i>照</i>
+              <span></span>
+            </div>
+
+            <article class="poem-column poem-column-du" id="duColumn">
+              <header class="poem-heading poem-heading-right">
+                <div class="poet-mark poet-mark-du">
+                  <span>甫</span>
+                  <small>杜</small>
+                </div>
+                <div>
+                  <p>杜甫</p>
+                  <h3 id="duPoemTitle">将赴成都草堂途中有作先寄严郑公五首 三</h3>
+                  <span id="duPoemMeta">诗号 41003 · 8 句</span>
+                </div>
+              </header>
+              <div class="poem-lines" id="duPoemLines"></div>
+            </article>
+
+            <div class="thread-hint" id="threadHint">
+              <span></span>
+              选择任一高亮诗句，查看对应墨线
+            </div>
+          </div>
+
+          <p class="mobile-thread-note">窄屏下以同色编号标示对应诗句，横向展开可查看连线。</p>
+
+          <div class="match-details">
+            <aside class="score-panel" aria-live="polite">
+              <p class="detail-label">当前互文</p>
+              <div class="score-orbit" id="scoreOrbit">
+                <div>
+                  <strong id="activeScore">70.57</strong>
+                  <span>%</span>
+                </div>
+              </div>
+              <p class="score-caption" id="scoreCaption">相近文本 · 7057</p>
+              <div class="active-quotes">
+                <blockquote id="activeLiQuote">日日醉如泥。</blockquote>
+                <span>照</span>
+                <blockquote id="activeDuQuote">先判一饮醉如泥。</blockquote>
+              </div>
+            </aside>
+
+            <div class="match-list-panel">
+              <div class="match-list-heading">
+                <div>
+                  <p class="detail-label">关系细目</p>
+                  <h3>诗作间全部互文句</h3>
+                </div>
+                <span id="matchCount">1 条</span>
+              </div>
+              <div class="match-list" id="matchList"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reader-empty" id="readerEmpty" hidden>
+          <p>这一首诗暂未出现在互文关系表中。</p>
+          <button class="button button-quiet" id="emptyBackButton" type="button">
+            返回星图
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>醉里逢秋</p>
+    </footer>
+
+    <dialog class="about-dialog" id="aboutDialog">
+      <button class="dialog-close" id="aboutClose" type="button" aria-label="关闭凡例">
+        ×
+      </button>
+      <p class="section-index">凡例</p>
+      <h2>如何读这张星图</h2>
+      <div class="about-grid">
+        <section>
+          <h3>关系</h3>
+          <p>
+            一条数据连接李白与杜甫的两句诗。相似度按万分制记录，网页显示为百分数，
+            例如 7057 显示为 70.57%。
+          </p>
+        </section>
+        <section>
+          <h3>全诗</h3>
+          <p>
+            网页按诗歌 ID 回到原始诗句表，依“诗句 ID”排序展开全文；高亮句来自互文关系表。
+          </p>
+        </section>
+        <section>
+          <h3>门槛</h3>
+          <p>
+            默认展示八十分以上的关联。调低门槛可以看到更多候选，但弱关系也会随之增加。
+          </p>
+        </section>
+        <section>
+          <h3>限度</h3>
+          <p>
+            数值相近不等于出处关系。诗中的化用、偶合、共同语汇与算法误差，都需回到文本细读。
+          </p>
+        </section>
+      </div>
+      <div class="about-stats" id="aboutStats"></div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <noscript>
+      <div class="noscript-note">此页面需要启用 JavaScript 才能显示互动星图与全诗对读。</div>
+    </noscript>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
